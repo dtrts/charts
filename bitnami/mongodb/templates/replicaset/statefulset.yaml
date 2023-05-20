@@ -233,8 +233,13 @@ spec:
                   fieldPath: status.hostIP
             - name: K8S_SERVICE_NAME
               value: "{{ include "mongodb.service.nameOverride" . }}"
+            {{- if .Values.externalAccess.service.externalDNS.enabled }}
+            - name: MONGODB_INITIAL_PRIMARY_HOST
+              value: {{ printf "%s-0.%s" (include "mongodb.fullname" .) (include "mongodb.externalAccess.externalDNS.suffix" .) }}
+            {{- else }}
             - name: MONGODB_INITIAL_PRIMARY_HOST
               value: {{ printf "%s-0.$(K8S_SERVICE_NAME).$(MY_POD_NAMESPACE).svc.%s" (include "mongodb.fullname" .) .Values.clusterDomain }}
+            {{- end }}
             - name: MONGODB_REPLICA_SET_NAME
               value: {{ .Values.replicaSetName | quote }}
             {{- if and .Values.replicaSetHostnames (not .Values.externalAccess.enabled) }}

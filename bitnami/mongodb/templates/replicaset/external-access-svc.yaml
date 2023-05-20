@@ -17,8 +17,11 @@ metadata:
     {{- include "common.tplvalues.render" ( dict "value" $root.Values.commonLabels "context" $ ) | nindent 4 }}
     {{- end }}
     pod: {{ $targetPod }}
-  {{- if or $root.Values.externalAccess.service.annotations $root.Values.commonAnnotations }}
+  {{- if or $root.Values.externalAccess.service.annotations $root.Values.commonAnnotations $root.Values.externalAccess.service.externalDNS.enabled }}
   annotations:
+    {{- if $root.Values.externalAccess.service.externalDNS.enabled }}
+    external-dns.alpha.kubernetes.io/hostname: {{ printf "%s.%s" $targetPod (include "mongodb.externalAccess.externalDNS.suffix" $) | quote }}
+    {{- end }}
     {{- if $root.Values.externalAccess.service.annotations }}
     {{- include "common.tplvalues.render" ( dict "value" $root.Values.externalAccess.service.annotations "context" $) | nindent 4 }}
     {{- end }}

@@ -95,11 +95,11 @@ diagnosticMode:
   ## @param diagnosticMode.command Command to override all containers in the deployment
   ##
   command:
-    - sleep
+  - sleep
   ## @param diagnosticMode.args Args to override all containers in the deployment
   ##
   args:
-    - infinity
+  - infinity
 
 ## @section MongoDB(&reg;) parameters
 ##
@@ -862,6 +862,14 @@ externalAccess:
     ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#load-balancer-nodeport-allocation
     ##
     allocateLoadBalancerNodePorts: true
+    ## @param externalAccess.service.externalDNS Parameters to configure ExternalDNS when service type is LoadBalancer. This requires a working installation of `external-dns` and once enabled will alter all hostnames in the chart.
+    ## ref: https://github.com/kubernetes-sigs/external-dns
+    ## @param externalAccess.service.externalDNS.enabled Enabled the usage of the ExternalDNS for the external services.
+    ## @param externalAccess.service.externalDNS.suffix The domain used to construct the FQDN for each node.
+    ##
+    externalDNS:
+      enabled: false
+      suffix: ""
     ## @param externalAccess.service.externalTrafficPolicy MongoDB(&reg;) service external traffic policy
     ## ref https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip
     ##
@@ -937,6 +945,14 @@ externalAccess:
       ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#load-balancer-nodeport-allocation
       ##
       allocateLoadBalancerNodePorts: true
+      ## @param externalAccess.hidden.service.externalDNS Parameters to configure ExternalDNS when service type is LoadBalancer. This requires a working installation of `external-dns` and once enabled will alter all hostnames in the chart.
+      ## ref: https://github.com/kubernetes-sigs/external-dns
+      ## @param externalAccess.hidden.service.externalDNS.enabled Enabled the usage of the ExternalDNS for the external services.
+      ## @param externalAccess.hidden.service.externalDNS.suffix The domain used to construct the FQDN for each node.
+      ##
+      externalDNS:
+        enabled: false
+        suffix: ""
       ## @param externalAccess.hidden.service.externalTrafficPolicy MongoDB(&reg;) service external traffic policy
       ## ref https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip
       ##
@@ -1005,7 +1021,7 @@ persistence:
   ## @param persistence.accessModes PV Access Mode
   ##
   accessModes:
-    - ReadWriteOnce
+  - ReadWriteOnce
   ## @param persistence.size PVC Storage Request for MongoDB(&reg;) data volume
   ##
   size: 8Gi
@@ -1845,7 +1861,7 @@ hidden:
     ## @param hidden.persistence.accessModes PV Access Mode
     ##
     accessModes:
-      - ReadWriteOnce
+    - ReadWriteOnce
     ## @param hidden.persistence.size PVC Storage Request for hidden node data volume
     ##
     size: 8Gi

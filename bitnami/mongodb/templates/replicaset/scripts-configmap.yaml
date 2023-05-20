@@ -69,6 +69,8 @@ data:
     {{- if eq .Values.externalAccess.service.type "LoadBalancer" }}
     {{- if .Values.externalAccess.autoDiscovery.enabled }}
     export MONGODB_ADVERTISED_HOSTNAME="$(<${SHARED_FILE})"
+    {{- else if eq .Values.externalAccess.service.externalDNS.enabled }}
+    export MONGODB_ADVERTISED_HOSTNAME="$MY_POD_NAME.{{ include "mongodb.externalAccess.externalDNS.suffix" . }}"
     {{- else }}
     ID="${MY_POD_NAME#"{{ $fullname }}-"}"
     export MONGODB_ADVERTISED_HOSTNAME=$(echo '{{ .Values.externalAccess.service.loadBalancerIPs }}' | tr -d '[]' | cut -d ' ' -f "$(($ID + 1))")

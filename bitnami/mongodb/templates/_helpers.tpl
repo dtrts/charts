@@ -501,3 +501,10 @@ reference: https://github.com/percona/mongodb_exporter/blob/main/REFERENCE.md
 {{- end -}}
 {{- ternary " --compatible-mode" "" .Values.metrics.compatibleMode -}}
 {{- end -}}
+
+{{/*
+Set External Access ExternalDNS Suffix.
+*/}}
+{{- define "mongodb.externalAccess.externalDNS.suffix" -}}
+{{- include "common.tplvalues.render" (dict "value" .Values.externalAccess.service.externalDNS.suffix "context" $) -}}
+{{- end -}}
